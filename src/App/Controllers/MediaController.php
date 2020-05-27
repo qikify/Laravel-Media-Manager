@@ -31,6 +31,7 @@ class MediaController extends Controller
         GlobalSearch;
 
     protected $baseUrl;
+    protected $edgeUrl;
     protected $db;
     protected $fileChars;
     protected $fileSystem;
@@ -60,6 +61,7 @@ class MediaController extends Controller
         $this->storageDisk     = app('filesystem')->disk($this->fileSystem);
         $this->storageDiskInfo = app('config')->get("filesystems.disks.{$this->fileSystem}");
         $this->baseUrl         = $this->storageDisk->url('/');
+        $this->edgeUrl         = data_get($this->storageDiskInfo, 'edge_endpoint', null);
         $this->db              = app('db')
                                     ->connection($config['database_connection'])
                                     ->table($config['table_locked']);

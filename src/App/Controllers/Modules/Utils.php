@@ -72,7 +72,8 @@ trait Utils
      */
     protected function resolveUrl($path)
     {
-        return $this->clearDblSlash("{$this->addCdnToUrl($this->baseUrl)}/{$path}");
+        $url = $this->edgeUrl ?: $this->baseUrl;
+        return $this->clearDblSlash("{$url}/{$path}");
     }
 
     protected function clearDblSlash($str)
@@ -81,12 +82,5 @@ trait Utils
         $str = str_replace(':/', '://', $str);
 
         return $str;
-    }
-
-    protected function addCdnToUrl($baseUrl) {
-        $region = env("DO_SPACES_REGION");
-        $pos = strpos($baseUrl, $region, 0) +strlen($region);
-        $newUrl = substr_replace($baseUrl, ".cdn",$pos, 0);
-        return $newUrl;
     }
 }
